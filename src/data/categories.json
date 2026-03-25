@@ -1,0 +1,8 @@
+[
+  { "slug": "breakfast", "name": "Breakfast", "emoji": "🌅", "description": "Start your morning with wholesome Jain breakfast dishes" },
+  { "slug": "main-course", "name": "Main Course", "emoji": "🍛", "description": "Hearty sabzis, dals, and paneer dishes for lunch and dinner" },
+  { "slug": "snacks", "name": "Snacks", "emoji": "🍘", "description": "Evening treats and tea-time favorites" },
+  { "slug": "desserts", "name": "Desserts", "emoji": "🍮", "description": "Sweet endings with traditional Indian mithai" },
+  { "slug": "rice-and-breads", "name": "Rice & Breads", "emoji": "🍚", "description": "Pulao, roti, paratha, and more staples" },
+  { "slug": "drinks", "name": "Drinks", "emoji": "🥤", "description": "Refreshing chaas, lassi, and seasonal beverages" }
+]

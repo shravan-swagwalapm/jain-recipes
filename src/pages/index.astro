@@ -1,0 +1,136 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import categories from '../data/categories.json';
+import recipes from '../data/recipes.json';
+
+const base = import.meta.env.BASE_URL;
+
+// Featured: pick 6 random recipes
+const featured = [...recipes].sort(() => Math.random() - 0.5).slice(0, 6);
+---
+
+<BaseLayout title="Home" description="Strict Jain vegetarian recipes — no root vegetables, pure sattvic cooking for the whole family">
+  <!-- Hero Section -->
+  <section class="relative bg-gradient-to-br from-maroon via-maroon-light to-saffron-dark text-cream py-20 sm:py-28">
+    <div class="absolute inset-0 opacity-10" style="background-image: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2260%22 height=%2260%22 viewBox=%220 0 60 60%22><circle cx=%2230%22 cy=%2230%22 r=%2220%22 fill=%22none%22 stroke=%22white%22 stroke-width=%220.5%22/><circle cx=%2230%22 cy=%2230%22 r=%2210%22 fill=%22none%22 stroke=%22white%22 stroke-width=%220.5%22/></svg>');"></div>
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 text-center relative z-10">
+      <span class="text-6xl sm:text-7xl block mb-6">🙏</span>
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 text-cream">
+        JainRecipes
+      </h1>
+      <p class="text-lg sm:text-xl text-cream/80 max-w-2xl mx-auto mb-8 leading-relaxed">
+        Pure, sattvic cooking for the whole family.
+        Every recipe follows strict Jain dietary guidelines — no onion, no garlic, no root vegetables.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a
+          href={`${base}recipes/`}
+          class="inline-flex items-center justify-center gap-2 bg-gold text-white font-semibold px-8 py-3 rounded-full hover:bg-gold-light transition-colors text-lg"
+        >
+          Browse Recipes
+        </a>
+        <a
+          href={`${base}search/`}
+          class="inline-flex items-center justify-center gap-2 bg-cream/10 text-cream border border-cream/30 font-semibold px-8 py-3 rounded-full hover:bg-cream/20 transition-colors text-lg"
+        >
+          Search by Ingredient
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Categories Section -->
+  <section class="max-w-6xl mx-auto px-4 sm:px-6 py-16">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl sm:text-4xl font-bold mb-3">Explore by Category</h2>
+      <div class="mandala-divider justify-center max-w-xs mx-auto">
+        <span class="text-gold text-xl">✦</span>
+      </div>
+    </div>
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+      {categories.map((cat) => (
+        <a
+          href={`${base}recipes/?category=${cat.slug}`}
+          class="flex flex-col items-center gap-3 p-6 bg-white rounded-2xl shadow-sm hover:shadow-md transition-all hover:-translate-y-1 group"
+        >
+          <span class="text-4xl group-hover:scale-110 transition-transform">{cat.emoji}</span>
+          <span class="font-semibold text-warm-gray group-hover:text-maroon transition-colors text-sm sm:text-base">{cat.name}</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <!-- Featured Recipes -->
+  <section class="bg-white py-16">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl sm:text-4xl font-bold mb-3">Featured Recipes</h2>
+        <div class="mandala-divider justify-center max-w-xs mx-auto">
+          <span class="text-gold text-xl">✦</span>
+        </div>
+        <p class="text-warm-gray mt-4">Hand-picked dishes to inspire your next meal</p>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {featured.map((recipe) => (
+          <a href={`${base}recipes/${recipe.slug}/`} class="recipe-card bg-cream rounded-2xl overflow-hidden shadow-sm group">
+            <div class="h-48 bg-gradient-to-br from-saffron/20 to-gold/20 flex items-center justify-center">
+              <span class="text-6xl opacity-60 group-hover:scale-110 transition-transform">
+                {recipe.category === 'breakfast' ? '🌅' :
+                 recipe.category === 'main-course' ? '🍛' :
+                 recipe.category === 'snacks' ? '🍘' :
+                 recipe.category === 'desserts' ? '🍮' :
+                 recipe.category === 'rice-and-breads' ? '🍚' : '🥤'}
+              </span>
+            </div>
+            <div class="p-5">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="text-xs font-medium text-saffron bg-saffron/10 px-2 py-0.5 rounded-full capitalize">
+                  {recipe.category.replace('-', ' ')}
+                </span>
+                <span class="text-xs text-warm-gray-light">{recipe.prepTime + recipe.cookTime} min</span>
+              </div>
+              <h3 class="font-heading text-lg font-semibold text-maroon group-hover:text-saffron transition-colors mb-1">
+                {recipe.name}
+              </h3>
+              <p class="text-sm text-warm-gray line-clamp-2">{recipe.description}</p>
+            </div>
+          </a>
+        ))}
+      </div>
+      <div class="text-center mt-10">
+        <a
+          href={`${base}recipes/`}
+          class="inline-flex items-center gap-2 text-saffron font-semibold hover:text-saffron-dark transition-colors"
+        >
+          View all recipes
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Info Banner -->
+  <section class="max-w-6xl mx-auto px-4 sm:px-6 py-16">
+    <div class="bg-gradient-to-r from-olive/10 to-gold/10 rounded-3xl p-8 sm:p-12">
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 text-center">
+        <div>
+          <span class="text-4xl block mb-3">🚫</span>
+          <h3 class="font-heading text-lg font-semibold text-maroon mb-1">No Root Vegetables</h3>
+          <p class="text-sm text-warm-gray">Every recipe is verified free of onion, garlic, potato, ginger & all root vegs</p>
+        </div>
+        <div>
+          <span class="text-4xl block mb-3">🌿</span>
+          <h3 class="font-heading text-lg font-semibold text-maroon mb-1">Pure Sattvic</h3>
+          <p class="text-sm text-warm-gray">Clean, wholesome ingredients that align with Jain dietary principles</p>
+        </div>
+        <div>
+          <span class="text-4xl block mb-3">👨‍👩‍👧‍👦</span>
+          <h3 class="font-heading text-lg font-semibold text-maroon mb-1">Family Friendly</h3>
+          <p class="text-sm text-warm-gray">Recipes the whole family will love — from quick breakfasts to festive sweets</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

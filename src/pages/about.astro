@@ -1,0 +1,189 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="About Jain Diet" description="Learn about Jain dietary guidelines and why certain foods are avoided">
+  <section class="max-w-4xl mx-auto px-4 sm:px-6 py-12">
+    <div class="text-center mb-12">
+      <h1 class="text-3xl sm:text-4xl font-bold mb-3">About the Jain Diet</h1>
+      <div class="mandala-divider justify-center max-w-xs mx-auto">
+        <span class="text-gold text-xl">✦</span>
+      </div>
+      <p class="text-warm-gray mt-4 text-lg max-w-2xl mx-auto">
+        Understanding the principles behind Jain vegetarian cooking
+      </p>
+    </div>
+
+    <!-- Core Principle -->
+    <div class="bg-gradient-to-br from-maroon to-maroon-light text-cream rounded-3xl p-8 sm:p-12 mb-10">
+      <h2 class="text-2xl font-bold mb-4 text-gold-light">The Principle of Ahimsa</h2>
+      <p class="text-cream/85 leading-relaxed text-lg">
+        Jain dietary practices are rooted in <strong class="text-cream">Ahimsa</strong> (non-violence) — the
+        fundamental principle of Jain philosophy. The goal is to minimize harm to all living beings,
+        including the tiniest organisms. This extends to the food we eat, how it's prepared, and
+        when it's consumed.
+      </p>
+    </div>
+
+    <!-- Why Root Vegetables Are Avoided -->
+    <div class="bg-white rounded-3xl p-8 sm:p-10 shadow-sm mb-10">
+      <h2 class="text-2xl font-bold mb-6 flex items-center gap-3">
+        <span class="text-3xl">🚫</span>
+        Why Root Vegetables Are Avoided
+      </h2>
+      <p class="text-warm-gray leading-relaxed mb-6">
+        Uprooting a plant destroys the entire organism and the countless microorganisms living
+        in the soil around its roots. Jain philosophy considers this a form of violence. Root
+        vegetables also have the potential to sprout new life — consuming them prevents that possibility.
+      </p>
+      <p class="text-warm-gray leading-relaxed">
+        Additionally, root vegetables are classified as <strong>Ananthkay</strong> — organisms
+        with infinite lives in a single body. Each root vegetable is considered to contain
+        countless individual life forms, making their consumption particularly harmful from
+        a Jain perspective.
+      </p>
+    </div>
+
+    <!-- What's Avoided vs. Allowed -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+      <!-- Not Allowed -->
+      <div class="bg-red-50 border border-red-100 rounded-3xl p-8">
+        <h3 class="text-xl font-bold text-red-800 mb-4 flex items-center gap-2">
+          <span class="text-2xl">❌</span> Not Allowed
+        </h3>
+        <ul class="space-y-3">
+          {[
+            { name: 'Onion', note: 'Root vegetable, pungent' },
+            { name: 'Garlic', note: 'Root vegetable, tamasic' },
+            { name: 'Potato', note: 'Root tuber' },
+            { name: 'Ginger', note: 'Rhizome (underground stem)' },
+            { name: 'Carrot', note: 'Root vegetable' },
+            { name: 'Radish', note: 'Root vegetable' },
+            { name: 'Beetroot', note: 'Root vegetable' },
+            { name: 'Turnip', note: 'Root vegetable' },
+            { name: 'Sweet Potato', note: 'Root tuber' },
+            { name: 'Yam', note: 'Root tuber' },
+            { name: 'Shallots & Leeks', note: 'Allium family' },
+          ].map((item) => (
+            <li class="flex items-start gap-3 text-sm">
+              <span class="text-red-400 mt-0.5">●</span>
+              <div>
+                <strong class="text-red-800">{item.name}</strong>
+                <span class="text-red-600/70 ml-1">— {item.note}</span>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Allowed -->
+      <div class="bg-green-50 border border-green-100 rounded-3xl p-8">
+        <h3 class="text-xl font-bold text-green-800 mb-4 flex items-center gap-2">
+          <span class="text-2xl">✅</span> Allowed
+        </h3>
+        <ul class="space-y-3">
+          {[
+            { name: 'Paneer & Dairy', note: 'Milk, curd, ghee, butter' },
+            { name: 'All Lentils & Dals', note: 'Toor, moong, chana, masoor' },
+            { name: 'Above-Ground Vegetables', note: 'Cauliflower, capsicum, peas, beans' },
+            { name: 'Gourds', note: 'Bottle gourd, ridge gourd, bitter gourd' },
+            { name: 'Leafy Greens', note: 'Spinach, fenugreek, coriander' },
+            { name: 'Brinjal (Eggplant)', note: 'Fruit vegetable' },
+            { name: 'Tomato', note: 'Fruit vegetable' },
+            { name: 'Grains & Rice', note: 'Wheat, rice, bajra, jowar' },
+            { name: 'Dry Fruits & Nuts', note: 'Almonds, cashews, raisins' },
+            { name: 'All Spices', note: 'Cumin, turmeric, coriander, pepper' },
+            { name: 'Asafoetida (Hing)', note: 'Great onion/garlic substitute!' },
+          ].map((item) => (
+            <li class="flex items-start gap-3 text-sm">
+              <span class="text-green-500 mt-0.5">●</span>
+              <div>
+                <strong class="text-green-800">{item.name}</strong>
+                <span class="text-green-700/70 ml-1">— {item.note}</span>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <!-- Paryushana Note -->
+    <div class="bg-gold/5 border border-gold/20 rounded-3xl p-8 sm:p-10 mb-10">
+      <h2 class="text-2xl font-bold mb-4 flex items-center gap-3">
+        <span class="text-3xl">🪷</span>
+        Paryushana & Special Fasting
+      </h2>
+      <p class="text-warm-gray leading-relaxed mb-4">
+        During <strong>Paryushana</strong> (the most important Jain festival, lasting 8-10 days),
+        many Jains observe even stricter dietary rules:
+      </p>
+      <ul class="space-y-2 text-warm-gray text-sm">
+        <li class="flex items-start gap-2">
+          <span class="text-gold mt-0.5">●</span>
+          <span>Avoiding leafy green vegetables (to protect tiny insects)</span>
+        </li>
+        <li class="flex items-start gap-2">
+          <span class="text-gold mt-0.5">●</span>
+          <span>Not eating after sunset (to avoid harming nocturnal organisms)</span>
+        </li>
+        <li class="flex items-start gap-2">
+          <span class="text-gold mt-0.5">●</span>
+          <span>Some observe complete fasts or eat only once a day</span>
+        </li>
+        <li class="flex items-start gap-2">
+          <span class="text-gold mt-0.5">●</span>
+          <span>Avoiding multi-seeded fruits like figs and eggplant</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Cooking Tips -->
+    <div class="bg-white rounded-3xl p-8 sm:p-10 shadow-sm">
+      <h2 class="text-2xl font-bold mb-6 flex items-center gap-3">
+        <span class="text-3xl">💡</span>
+        Tips for Jain Cooking
+      </h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div>
+          <h4 class="font-semibold text-maroon mb-2">Replacing Onion & Garlic</h4>
+          <p class="text-sm text-warm-gray leading-relaxed">
+            Use <strong>asafoetida (hing)</strong> for a similar pungent flavor. A tiny pinch
+            in hot oil mimics the depth that onion and garlic provide. Green chilies and
+            cumin seeds also add flavor complexity.
+          </p>
+        </div>
+        <div>
+          <h4 class="font-semibold text-maroon mb-2">Replacing Potato</h4>
+          <p class="text-sm text-warm-gray leading-relaxed">
+            Use <strong>raw banana (plantain)</strong>, <strong>colocasia (arbi)</strong> — wait,
+            that's a root! Use <strong>paneer</strong>, <strong>bread cubes</strong>, or
+            <strong>sabudana</strong> for a starchy, filling substitute.
+          </p>
+        </div>
+        <div>
+          <h4 class="font-semibold text-maroon mb-2">Replacing Ginger</h4>
+          <p class="text-sm text-warm-gray leading-relaxed">
+            <strong>Dry ginger powder (saunth)</strong> — wait, still ginger! Use
+            <strong>black pepper</strong>, <strong>cinnamon</strong>, or
+            <strong>cardamom</strong> for warmth and spice.
+          </p>
+        </div>
+        <div>
+          <h4 class="font-semibold text-maroon mb-2">Building Flavor Without Roots</h4>
+          <p class="text-sm text-warm-gray leading-relaxed">
+            Rely on <strong>tempering (tadka/vaghaar)</strong> with cumin, mustard seeds,
+            curry leaves, and hing. <strong>Tomato puree</strong>, <strong>cashew paste</strong>,
+            and <strong>poppy seed paste</strong> create rich gravies.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Jai Jinendra -->
+    <div class="text-center mt-12">
+      <span class="text-5xl block mb-3">🙏</span>
+      <p class="font-heading text-2xl font-bold text-maroon">Jai Jinendra!</p>
+      <p class="text-warm-gray mt-2">May every meal be an act of compassion.</p>
+    </div>
+  </section>
+</BaseLayout>

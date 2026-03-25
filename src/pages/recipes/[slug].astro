@@ -1,0 +1,176 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ShareButton from '../../components/ShareButton.astro';
+import recipes from '../../data/recipes.json';
+
+export function getStaticPaths() {
+  return recipes.map((recipe) => ({
+    params: { slug: recipe.slug },
+    props: { recipe },
+  }));
+}
+
+const { recipe } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const recipeUrl = `${Astro.site}${base}recipes/${recipe.slug}/`.replace(/([^:])\/\//g, '$1/');
+
+const categoryEmoji: Record<string, string> = {
+  'breakfast': '🌅',
+  'main-course': '🍛',
+  'snacks': '🍘',
+  'desserts': '🍮',
+  'rice-and-breads': '🍚',
+  'drinks': '🥤',
+};
+
+const difficultyLabel: Record<string, string> = {
+  'easy': '🟢 Easy',
+  'medium': '🟡 Medium',
+  'hard': '🔴 Hard',
+};
+---
+
+<BaseLayout
+  title={recipe.name}
+  description={recipe.description}
+>
+  <article class="max-w-4xl mx-auto px-4 sm:px-6 py-12">
+    <!-- Breadcrumb -->
+    <nav class="flex items-center gap-2 text-sm text-warm-gray-light mb-8">
+      <a href={`${base}`} class="hover:text-maroon transition-colors">Home</a>
+      <span>/</span>
+      <a href={`${base}recipes/`} class="hover:text-maroon transition-colors">Recipes</a>
+      <span>/</span>
+      <span class="text-warm-gray">{recipe.name}</span>
+    </nav>
+
+    <!-- Header -->
+    <div class="bg-gradient-to-br from-saffron/10 to-gold/10 rounded-3xl p-8 sm:p-12 mb-8">
+      <div class="flex items-start gap-4 mb-4">
+        <span class="text-5xl">{categoryEmoji[recipe.category] || '🍽️'}</span>
+        <div>
+          <div class="flex flex-wrap items-center gap-2 mb-2">
+            <span class="text-xs font-medium text-saffron bg-saffron/10 px-2 py-0.5 rounded-full capitalize">
+              {recipe.category.replace(/-/g, ' ')}
+            </span>
+            <span class="text-xs font-medium text-olive bg-olive/10 px-2 py-0.5 rounded-full">
+              {recipe.cuisine}
+            </span>
+            <span class="text-xs text-warm-gray-light">
+              {difficultyLabel[recipe.difficulty]}
+            </span>
+          </div>
+          <h1 class="text-3xl sm:text-4xl font-bold">{recipe.name}</h1>
+          <p class="text-warm-gray mt-2 text-lg">{recipe.description}</p>
+        </div>
+      </div>
+
+      <!-- Meta -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6">
+        <div class="bg-white/60 rounded-xl p-3 text-center">
+          <div class="text-xs text-warm-gray-light mb-1">Prep Time</div>
+          <div class="font-semibold text-maroon">{recipe.prepTime} min</div>
+        </div>
+        <div class="bg-white/60 rounded-xl p-3 text-center">
+          <div class="text-xs text-warm-gray-light mb-1">Cook Time</div>
+          <div class="font-semibold text-maroon">{recipe.cookTime} min</div>
+        </div>
+        <div class="bg-white/60 rounded-xl p-3 text-center">
+          <div class="text-xs text-warm-gray-light mb-1">Total Time</div>
+          <div class="font-semibold text-maroon">{recipe.prepTime + recipe.cookTime} min</div>
+        </div>
+        <div class="bg-white/60 rounded-xl p-3 text-center">
+          <div class="text-xs text-warm-gray-light mb-1">Servings</div>
+          <div class="font-semibold text-maroon">{recipe.servings}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <!-- Sidebar: Ingredients + Nutrition -->
+      <div class="lg:col-span-1 space-y-6">
+        <!-- Ingredients -->
+        <div class="bg-white rounded-2xl p-6 shadow-sm">
+          <h2 class="font-heading text-xl font-semibold mb-4 flex items-center gap-2">
+            <span>🧾</span> Ingredients
+          </h2>
+          <ul class="space-y-2">
+            {recipe.ingredients.map((ing: { name: string; quantity: string; unit: string }) => (
+              <li class="flex items-start gap-2 text-sm">
+                <span class="text-saffron mt-1">●</span>
+                <span>
+                  <strong>{ing.quantity} {ing.unit}</strong> {ing.name}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <!-- Nutrition -->
+        {recipe.nutritionEstimate && (
+          <div class="bg-olive/5 rounded-2xl p-6">
+            <h3 class="font-heading text-lg font-semibold mb-3 flex items-center gap-2">
+              <span>📊</span> Nutrition (per serving)
+            </h3>
+            <div class="space-y-2 text-sm">
+              <div class="flex justify-between">
+                <span class="text-warm-gray">Calories</span>
+                <span class="font-medium">{recipe.nutritionEstimate.calories} kcal</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-warm-gray">Protein</span>
+                <span class="font-medium">{recipe.nutritionEstimate.protein}</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-warm-gray">Carbs</span>
+                <span class="font-medium">{recipe.nutritionEstimate.carbs}</span>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <!-- Tags -->
+        <div class="flex flex-wrap gap-2">
+          {recipe.tags.map((tag: string) => (
+            <span class="text-xs bg-cream-dark text-warm-gray px-3 py-1 rounded-full">
+              #{tag}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <!-- Main: Steps -->
+      <div class="lg:col-span-2">
+        <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm">
+          <h2 class="font-heading text-xl font-semibold mb-6 flex items-center gap-2">
+            <span>👩‍🍳</span> Instructions
+          </h2>
+          <ol class="space-y-6">
+            {recipe.steps.map((step: string, i: number) => (
+              <li class="flex gap-4">
+                <span class="flex-shrink-0 w-8 h-8 bg-saffron/10 text-saffron rounded-full flex items-center justify-center font-semibold text-sm">
+                  {i + 1}
+                </span>
+                <p class="text-warm-gray leading-relaxed pt-1">{step}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+
+        <!-- Share -->
+        <div class="mt-8">
+          <h3 class="font-heading text-lg font-semibold mb-3">Share this recipe</h3>
+          <ShareButton recipeName={recipe.name} recipeUrl={recipeUrl} />
+        </div>
+      </div>
+    </div>
+
+    <!-- Jain badge -->
+    <div class="mt-12 bg-olive/5 border border-olive/20 rounded-2xl p-6 text-center">
+      <span class="text-3xl block mb-2">🙏</span>
+      <p class="text-sm text-warm-gray">
+        <strong class="text-olive">Strict Jain Verified</strong> — This recipe contains no onion, garlic, potato, ginger, or any root vegetables.
+      </p>
+    </div>
+  </article>
+</BaseLayout>

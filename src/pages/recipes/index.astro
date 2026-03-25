@@ -1,0 +1,119 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import RecipeCard from '../../components/RecipeCard.astro';
+import recipes from '../../data/recipes.json';
+import categories from '../../data/categories.json';
+---
+
+<BaseLayout title="All Recipes" description="Browse 100+ strict Jain vegetarian recipes">
+  <section class="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+    <div class="text-center mb-10">
+      <h1 class="text-3xl sm:text-4xl font-bold mb-3">All Recipes</h1>
+      <div class="mandala-divider justify-center max-w-xs mx-auto">
+        <span class="text-gold text-xl">✦</span>
+      </div>
+      <p class="text-warm-gray mt-4">{recipes.length} strict Jain recipes, all verified root-vegetable free</p>
+    </div>
+
+    <!-- Category Filter Tabs -->
+    <div class="flex flex-wrap justify-center gap-2 mb-10" id="category-tabs">
+      <button
+        data-category="all"
+        class="category-tab active px-4 py-2 rounded-full text-sm font-medium transition-all bg-maroon text-cream"
+      >
+        All ({recipes.length})
+      </button>
+      {categories.map((cat) => {
+        const count = recipes.filter(r => r.category === cat.slug).length;
+        return (
+          <button
+            data-category={cat.slug}
+            class="category-tab px-4 py-2 rounded-full text-sm font-medium transition-all bg-cream-dark text-warm-gray hover:bg-saffron/10 hover:text-saffron"
+          >
+            {cat.emoji} {cat.name} ({count})
+          </button>
+        );
+      })}
+    </div>
+
+    <!-- Recipe Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="recipe-grid">
+      {recipes.map((recipe) => (
+        <div data-category={recipe.category} class="recipe-item">
+          <RecipeCard
+            slug={recipe.slug}
+            name={recipe.name}
+            description={recipe.description}
+            category={recipe.category}
+            prepTime={recipe.prepTime}
+            cookTime={recipe.cookTime}
+            difficulty={recipe.difficulty}
+            servings={recipe.servings}
+          />
+        </div>
+      ))}
+    </div>
+
+    <!-- Empty state -->
+    <div id="empty-state" class="hidden text-center py-16">
+      <span class="text-5xl block mb-4">🍽️</span>
+      <p class="text-warm-gray text-lg">No recipes found in this category.</p>
+    </div>
+  </section>
+
+  <script>
+    const tabs = document.querySelectorAll('.category-tab');
+    const items = document.querySelectorAll('.recipe-item');
+    const emptyState = document.getElementById('empty-state');
+
+    // Check URL for initial category
+    const params = new URLSearchParams(window.location.search);
+    const initialCategory = params.get('category') || 'all';
+
+    function filterByCategory(category: string) {
+      let visibleCount = 0;
+
+      items.forEach((item) => {
+        const el = item as HTMLElement;
+        if (category === 'all' || el.dataset.category === category) {
+          el.style.display = '';
+          visibleCount++;
+        } else {
+          el.style.display = 'none';
+        }
+      });
+
+      tabs.forEach((tab) => {
+        const btn = tab as HTMLButtonElement;
+        if (btn.dataset.category === category) {
+          btn.className = 'category-tab active px-4 py-2 rounded-full text-sm font-medium transition-all bg-maroon text-cream';
+        } else {
+          btn.className = 'category-tab px-4 py-2 rounded-full text-sm font-medium transition-all bg-cream-dark text-warm-gray hover:bg-saffron/10 hover:text-saffron';
+        }
+      });
+
+      if (emptyState) {
+        emptyState.style.display = visibleCount === 0 ? '' : 'none';
+        if (visibleCount === 0) emptyState.classList.remove('hidden');
+      }
+    }
+
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        const category = (tab as HTMLButtonElement).dataset.category || 'all';
+        filterByCategory(category);
+        // Update URL without reload
+        const url = new URL(window.location.href);
+        if (category === 'all') {
+          url.searchParams.delete('category');
+        } else {
+          url.searchParams.set('category', category);
+        }
+        window.history.replaceState({}, '', url.toString());
+      });
+    });
+
+    // Apply initial filter
+    filterByCategory(initialCategory);
+  </script>
+</BaseLayout>

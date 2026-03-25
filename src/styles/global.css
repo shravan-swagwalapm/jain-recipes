@@ -1,0 +1,115 @@
+@import "tailwindcss";
+
+@theme {
+  /* Warm & Traditional Indian palette */
+  --color-saffron: #D4763C;
+  --color-saffron-light: #E8A06A;
+  --color-saffron-dark: #B85E2A;
+  --color-cream: #FFF8F0;
+  --color-cream-dark: #F5EDE0;
+  --color-maroon: #6B1D2A;
+  --color-maroon-light: #8B2E3D;
+  --color-gold: #C4973B;
+  --color-gold-light: #D4AD5A;
+  --color-olive: #5C7A3B;
+  --color-olive-light: #7A9E52;
+  --color-warm-gray: #6B5E54;
+  --color-warm-gray-light: #9B8E84;
+
+  /* Typography */
+  --font-heading: 'Playfair Display', Georgia, serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+
+  /* Spacing */
+  --spacing-section: 4rem;
+}
+
+/* Base styles */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-cream);
+  color: #2D2420;
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  color: var(--color-maroon);
+  line-height: 1.2;
+}
+
+/* Rangoli-inspired decorative border */
+.rangoli-border {
+  border-image: repeating-linear-gradient(
+    90deg,
+    var(--color-saffron) 0px,
+    var(--color-saffron) 8px,
+    transparent 8px,
+    transparent 12px,
+    var(--color-gold) 12px,
+    var(--color-gold) 20px,
+    transparent 20px,
+    transparent 24px
+  ) 4;
+  border-width: 4px;
+  border-style: solid;
+}
+
+/* Mandala divider */
+.mandala-divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.mandala-divider::before,
+.mandala-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+}
+
+.mandala-divider::before {
+  background: linear-gradient(90deg, transparent, var(--color-gold));
+}
+
+.mandala-divider::after {
+  background: linear-gradient(90deg, var(--color-gold), transparent);
+}
+
+/* Card hover effect */
+.recipe-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.recipe-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(107, 29, 42, 0.12);
+}
+
+/* Toast notification */
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: var(--color-maroon);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  opacity: 0;
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+.toast.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}

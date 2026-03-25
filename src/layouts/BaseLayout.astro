@@ -1,0 +1,135 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+}
+
+const { title, description = 'Strict Jain vegetarian recipes — no root vegetables, pure sattvic cooking', ogImage } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const base = import.meta.env.BASE_URL;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+
+    <title>{title} | JainRecipes</title>
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <!-- Navigation -->
+    <nav class="bg-white/80 backdrop-blur-sm border-b border-cream-dark sticky top-0 z-50">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6">
+        <div class="flex items-center justify-between h-16">
+          <!-- Logo -->
+          <a href={`${base}`} class="flex items-center gap-2 group">
+            <span class="text-3xl">🙏</span>
+            <span class="font-heading text-xl font-bold text-maroon group-hover:text-saffron transition-colors">
+              JainRecipes
+            </span>
+          </a>
+
+          <!-- Desktop Nav -->
+          <div class="hidden md:flex items-center gap-8">
+            <a href={`${base}`} class="text-warm-gray hover:text-maroon font-medium transition-colors">Home</a>
+            <a href={`${base}recipes/`} class="text-warm-gray hover:text-maroon font-medium transition-colors">Recipes</a>
+            <a href={`${base}search/`} class="text-warm-gray hover:text-maroon font-medium transition-colors">Search</a>
+            <a href={`${base}meal-planner/`} class="text-warm-gray hover:text-maroon font-medium transition-colors">Meal Planner</a>
+            <a href={`${base}about/`} class="text-warm-gray hover:text-maroon font-medium transition-colors">About</a>
+          </div>
+
+          <!-- Mobile menu button -->
+          <button
+            id="mobile-menu-btn"
+            class="md:hidden p-2 rounded-lg hover:bg-cream-dark transition-colors"
+            aria-label="Toggle menu"
+          >
+            <svg class="w-6 h-6 text-maroon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path id="menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Mobile Nav -->
+        <div id="mobile-menu" class="hidden md:hidden pb-4">
+          <div class="flex flex-col gap-2">
+            <a href={`${base}`} class="px-3 py-2 rounded-lg text-warm-gray hover:bg-cream-dark hover:text-maroon transition-colors">Home</a>
+            <a href={`${base}recipes/`} class="px-3 py-2 rounded-lg text-warm-gray hover:bg-cream-dark hover:text-maroon transition-colors">Recipes</a>
+            <a href={`${base}search/`} class="px-3 py-2 rounded-lg text-warm-gray hover:bg-cream-dark hover:text-maroon transition-colors">Search</a>
+            <a href={`${base}meal-planner/`} class="px-3 py-2 rounded-lg text-warm-gray hover:bg-cream-dark hover:text-maroon transition-colors">Meal Planner</a>
+            <a href={`${base}about/`} class="px-3 py-2 rounded-lg text-warm-gray hover:bg-cream-dark hover:text-maroon transition-colors">About</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-1">
+      <slot />
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-maroon text-cream py-12 mt-auto">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div>
+            <div class="flex items-center gap-2 mb-4">
+              <span class="text-2xl">🙏</span>
+              <span class="font-heading text-lg font-bold text-gold-light">JainRecipes</span>
+            </div>
+            <p class="text-cream/70 text-sm leading-relaxed">
+              Strict Jain vegetarian recipes for the whole family.
+              No root vegetables. Pure sattvic cooking.
+            </p>
+          </div>
+          <div>
+            <h4 class="font-heading text-gold-light font-semibold mb-3">Quick Links</h4>
+            <div class="flex flex-col gap-2">
+              <a href={`${base}recipes/`} class="text-cream/70 hover:text-cream text-sm transition-colors">All Recipes</a>
+              <a href={`${base}search/`} class="text-cream/70 hover:text-cream text-sm transition-colors">Search</a>
+              <a href={`${base}meal-planner/`} class="text-cream/70 hover:text-cream text-sm transition-colors">Meal Planner</a>
+              <a href={`${base}about/`} class="text-cream/70 hover:text-cream text-sm transition-colors">About Jain Diet</a>
+            </div>
+          </div>
+          <div>
+            <h4 class="font-heading text-gold-light font-semibold mb-3">About</h4>
+            <p class="text-cream/70 text-sm leading-relaxed">
+              Made with love for the Jain community. All recipes follow
+              strict Jain dietary guidelines — no onion, garlic, potato,
+              ginger, or any root vegetables.
+            </p>
+          </div>
+        </div>
+        <div class="mt-8 pt-6 border-t border-cream/20 text-center text-cream/50 text-xs">
+          &copy; {new Date().getFullYear()} JainRecipes. Jai Jinendra!
+        </div>
+      </div>
+    </footer>
+
+    <!-- Mobile menu toggle script -->
+    <script>
+      const btn = document.getElementById('mobile-menu-btn');
+      const menu = document.getElementById('mobile-menu');
+      btn?.addEventListener('click', () => {
+        menu?.classList.toggle('hidden');
+      });
+    </script>
+  </body>
+</html>

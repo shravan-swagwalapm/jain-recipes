@@ -1,0 +1,26 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import MealPlanner from '../components/MealPlanner.tsx';
+import recipes from '../data/recipes.json';
+
+const base = import.meta.env.BASE_URL;
+
+// Minimal data for the planner
+const plannerRecipes = recipes.map(({ slug, name, category, prepTime, cookTime }) => ({
+  slug, name, category, prepTime, cookTime,
+}));
+---
+
+<BaseLayout title="Meal Planner" description="Plan your weekly Jain meals with our drag-and-drop planner">
+  <section class="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+    <div class="text-center mb-10">
+      <h1 class="text-3xl sm:text-4xl font-bold mb-3">Weekly Meal Planner</h1>
+      <div class="mandala-divider justify-center max-w-xs mx-auto">
+        <span class="text-gold text-xl">✦</span>
+      </div>
+      <p class="text-warm-gray mt-4">Plan your week of Jain meals. Saved locally in your browser.</p>
+    </div>
+
+    <MealPlanner client:load recipes={plannerRecipes} basePath={base} />
+  </section>
+</BaseLayout>
