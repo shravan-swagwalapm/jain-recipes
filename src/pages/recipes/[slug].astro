@@ -28,15 +28,38 @@ const difficultyLabel: Record<string, string> = {
   'medium': '🟡 Medium',
   'hard': '🔴 Hard',
 };
+
+const recipeSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Recipe',
+  name: recipe.name,
+  description: recipe.description,
+  recipeCuisine: recipe.cuisine,
+  recipeCategory: recipe.category.replace(/-/g, ' '),
+  prepTime: `PT${recipe.prepTime}M`,
+  cookTime: `PT${recipe.cookTime}M`,
+  totalTime: `PT${recipe.prepTime + recipe.cookTime}M`,
+  recipeYield: `${recipe.servings} servings`,
+  keywords: recipe.tags.join(', '),
+  recipeIngredient: recipe.ingredients.map((ingredient: { name: string; quantity: string; unit: string }) =>
+    `${ingredient.quantity} ${ingredient.unit} ${ingredient.name}`.trim()
+  ),
+  recipeInstructions: recipe.steps.map((step: string) => ({
+    '@type': 'HowToStep',
+    text: step,
+  })),
+  suitableForDiet: 'https://schema.org/VegetarianDiet',
+};
 ---
 
 <BaseLayout
   title={recipe.name}
   description={recipe.description}
 >
-  <article class="max-w-4xl mx-auto px-4 sm:px-6 py-12">
+  <script type="application/ld+json" set:html={JSON.stringify(recipeSchema)} />
+  <article class="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
     <!-- Breadcrumb -->
-    <nav class="flex items-center gap-2 text-sm text-warm-gray-light mb-8">
+    <nav class="flex flex-wrap items-center gap-2 text-sm text-warm-gray-light mb-6 sm:mb-8" aria-label="Breadcrumb">
       <a href={`${base}`} class="hover:text-maroon transition-colors">Home</a>
       <span>/</span>
       <a href={`${base}recipes/`} class="hover:text-maroon transition-colors">Recipes</a>
@@ -45,7 +68,7 @@ const difficultyLabel: Record<string, string> = {
     </nav>
 
     <!-- Header -->
-    <div class="bg-gradient-to-br from-saffron/10 to-gold/10 rounded-3xl p-8 sm:p-12 mb-8">
+    <div class="bg-gradient-to-br from-saffron/10 to-gold/10 rounded-3xl p-5 sm:p-8 lg:p-12 mb-6 sm:mb-8">
       <div class="flex items-start gap-4 mb-4">
         <span class="text-5xl">{categoryEmoji[recipe.category] || '🍽️'}</span>
         <div>
@@ -66,7 +89,7 @@ const difficultyLabel: Record<string, string> = {
       </div>
 
       <!-- Meta -->
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6">
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mt-6">
         <div class="bg-white/60 rounded-xl p-3 text-center">
           <div class="text-xs text-warm-gray-light mb-1">Prep Time</div>
           <div class="font-semibold text-maroon">{recipe.prepTime} min</div>
@@ -86,7 +109,7 @@ const difficultyLabel: Record<string, string> = {
       </div>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
       <!-- Sidebar: Ingredients + Nutrition -->
       <div class="lg:col-span-1 space-y-6">
         <!-- Ingredients -->
@@ -140,8 +163,8 @@ const difficultyLabel: Record<string, string> = {
       </div>
 
       <!-- Main: Steps -->
-      <div class="lg:col-span-2">
-        <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm">
+      <div class="lg:col-span-2" id="recipe-instructions">
+        <div class="bg-white rounded-2xl p-5 sm:p-8 shadow-sm">
           <h2 class="font-heading text-xl font-semibold mb-6 flex items-center gap-2">
             <span>👩‍🍳</span> Instructions
           </h2>
@@ -167,9 +190,9 @@ const difficultyLabel: Record<string, string> = {
 
     <!-- Jain badge -->
     <div class="mt-12 bg-olive/5 border border-olive/20 rounded-2xl p-6 text-center">
-      <span class="text-3xl block mb-2">🙏</span>
+      <span class="text-3xl block mb-2" aria-hidden="true">🙏</span>
       <p class="text-sm text-warm-gray">
-        <strong class="text-olive">Strict Jain Verified</strong> — This recipe contains no onion, garlic, potato, ginger, or any root vegetables.
+        <strong class="text-olive">Strict Jain Verified</strong> — This recipe is validated to exclude onion, garlic, root vegetables, eggs, meat, fish, and mushroom.
       </p>
     </div>
   </article>

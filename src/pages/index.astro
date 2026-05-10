@@ -5,8 +5,17 @@ import recipes from '../data/recipes.json';
 
 const base = import.meta.env.BASE_URL;
 
-// Featured: pick 6 random recipes
-const featured = [...recipes].sort(() => Math.random() - 0.5).slice(0, 6);
+const featuredSlugs = [
+  'jain-poha',
+  'moong-dal-cheela',
+  'khaman-dhokla',
+  'paneer-butter-masala-jain',
+  'pav-bhaji-jain',
+  'mango-lassi',
+];
+const featured = featuredSlugs
+  .map((slug) => recipes.find((recipe) => recipe.slug === slug))
+  .filter(Boolean);
 ---
 
 <BaseLayout title="Home" description="Strict Jain vegetarian recipes — no root vegetables, pure sattvic cooking for the whole family">

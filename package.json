@@ -7,9 +7,11 @@
   },
   "scripts": {
     "dev": "astro dev",
+    "prebuild": "npm run validate:recipes",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "validate:recipes": "node scripts/validate-recipes.mjs"
   },
   "dependencies": {
     "@astrojs/react": "^5.0.1",

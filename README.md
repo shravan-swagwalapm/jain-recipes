@@ -1,43 +1,55 @@
-# Astro Starter Kit: Minimal
+# JainRecipes
+
+Static Astro site for strict Jain vegetarian recipes. It publishes a searchable recipe library to GitHub Pages, with one detail page per recipe.
+
+## What It Does
+
+- Lists all Jain recipes from `src/data/recipes.json`
+- Generates clickable recipe detail pages at `/recipes/[slug]/`
+- Supports category filters, text search, ingredient filtering, and a local meal planner
+- Validates recipe data before every production build
+- Deploys `dist/` to GitHub Pages through `.github/workflows/deploy.yml`
+
+## Jain Recipe Rules
+
+The build rejects forbidden ingredients in recipe ingredient lists:
+
+- onion, garlic, potato, ginger
+- carrot, radish, beetroot, turnip, sweet potato, yam
+- arbi/colocasia, mushroom
+- egg, meat, fish, chicken
+
+Run validation directly:
 
 ```sh
-npm create astro@latest -- --template minimal
+npm run validate:recipes
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Local Development
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+```sh
+npm install
+npm run dev
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+Build for production:
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+```sh
+npm run build
+```
 
-Any static assets, like images, can be placed in the `public/` directory.
+Preview the built site:
 
-## 🧞 Commands
+```sh
+npm run preview
+```
 
-All commands are run from the root of the project, from a terminal:
+## GitHub Pages
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+This repo is configured for GitHub Pages at:
 
-## 👀 Want to learn more?
+```txt
+https://shravan-swagwalapm.github.io/jain-recipes/
+```
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Deployment runs on pushes to `main`. In GitHub, set Pages source to **GitHub Actions**.

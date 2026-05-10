@@ -34,6 +34,9 @@ const base = import.meta.env.BASE_URL;
     <title>{title} | JainRecipes</title>
   </head>
   <body class="min-h-screen flex flex-col">
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-[60] bg-maroon text-cream px-3 py-2 rounded">
+      Skip to content
+    </a>
     <!-- Navigation -->
     <nav class="bg-white/80 backdrop-blur-sm border-b border-cream-dark sticky top-0 z-50">
       <div class="max-w-6xl mx-auto px-4 sm:px-6">
@@ -60,6 +63,8 @@ const base = import.meta.env.BASE_URL;
             id="mobile-menu-btn"
             class="md:hidden p-2 rounded-lg hover:bg-cream-dark transition-colors"
             aria-label="Toggle menu"
+            aria-controls="mobile-menu"
+            aria-expanded="false"
           >
             <svg class="w-6 h-6 text-maroon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path id="menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -81,7 +86,7 @@ const base = import.meta.env.BASE_URL;
     </nav>
 
     <!-- Main Content -->
-    <main class="flex-1">
+    <main id="main-content" class="flex-1">
       <slot />
     </main>
 
@@ -129,6 +134,8 @@ const base = import.meta.env.BASE_URL;
       const menu = document.getElementById('mobile-menu');
       btn?.addEventListener('click', () => {
         menu?.classList.toggle('hidden');
+        const expanded = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', String(!expanded));
       });
     </script>
   </body>
